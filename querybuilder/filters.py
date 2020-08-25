@@ -318,7 +318,7 @@ class Filter(six.with_metaclass(FilterMeta, ToDictMixin)):
 
     @Operator.LESS.handles
     def less(self, lop, rop):
-        if lop is None: #python3 comparison changes
+        if lop is None or rop is None: #python3 comparison changes
             return False
 
         return lop < rop
@@ -329,6 +329,8 @@ class Filter(six.with_metaclass(FilterMeta, ToDictMixin)):
 
     @Operator.GREATER.handles
     def greater(self, lop, rop):
+        if lop is None or rop is None:
+            return False
         return not self.less_or_equal(lop, rop)
 
     @Operator.GREATER_OR_EQUAL.handles
